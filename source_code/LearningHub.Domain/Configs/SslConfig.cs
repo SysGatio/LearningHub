@@ -1,4 +1,4 @@
-﻿namespace RabbitMQ.Producer.Configs;
+﻿namespace LearningHub.Domain.Configs;
 
 [UsedImplicitly]
 public record SslConfig

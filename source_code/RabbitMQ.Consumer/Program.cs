@@ -7,6 +7,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextFactory<Context>(opcoes => opcoes.UseNpgsql());
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+var rabbitMqConfig = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqConfig>() ??
+                     throw new InvalidOperationException();
+
+builder.Services.AddSingleton(rabbitMqConfig);
 builder.Services.AddHostedService<LogConsumerService>();
 
 var app = builder.Build();
