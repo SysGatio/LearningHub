@@ -1,7 +1,7 @@
 ﻿namespace RabbitMQ.Producer.Controllers;
 
 [ApiController, Route("api/[controller]")]
-public class LogController(ILogger<LogController> logger, ISender mediator) : ControllerBase
+public class LogProducerController(ILogger<LogProducerController> logger, ISender mediator) : ControllerBase
 {
     [HttpPost("QueueLogMessage")]
     public async Task<IActionResult> QueueLogMessage([FromQuery] int quantityOfLogs)

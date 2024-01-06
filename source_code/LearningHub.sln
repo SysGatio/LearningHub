@@ -2,9 +2,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.0.0
 MinimumVisualStudioVersion = 17.0.0.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningHub.Shared", "LearningHub.Shared\LearningHub.Shared.csproj", "{E451A6B5-7C97-42D5-8D78-E059670912A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMQ.Producer", "RabbitMQ.Producer\RabbitMQ.Producer.csproj", "{878B90F7-6F8D-43F3-9345-FBE7D11A7839}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.Producer", "RabbitMQ.Producer\RabbitMQ.Producer.csproj", "{878B90F7-6F8D-43F3-9345-FBE7D11A7839}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.Consumer", "RabbitMQ.Consumer\RabbitMQ.Consumer.csproj", "{56106750-765F-4289-8B2C-2E649760021D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningHub.Data", "LearningHub.Data\LearningHub.Data.csproj", "{8B3089C1-89C7-4976-AA3F-531E7DCD37D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningHub.Domain", "LearningHub.Domain\LearningHub.Domain.csproj", "{1DED767B-484F-4A61-98C4-8ED010A7EF25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,14 +16,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E451A6B5-7C97-42D5-8D78-E059670912A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E451A6B5-7C97-42D5-8D78-E059670912A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E451A6B5-7C97-42D5-8D78-E059670912A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E451A6B5-7C97-42D5-8D78-E059670912A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{878B90F7-6F8D-43F3-9345-FBE7D11A7839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{878B90F7-6F8D-43F3-9345-FBE7D11A7839}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{878B90F7-6F8D-43F3-9345-FBE7D11A7839}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{878B90F7-6F8D-43F3-9345-FBE7D11A7839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56106750-765F-4289-8B2C-2E649760021D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56106750-765F-4289-8B2C-2E649760021D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56106750-765F-4289-8B2C-2E649760021D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56106750-765F-4289-8B2C-2E649760021D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B3089C1-89C7-4976-AA3F-531E7DCD37D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B3089C1-89C7-4976-AA3F-531E7DCD37D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B3089C1-89C7-4976-AA3F-531E7DCD37D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B3089C1-89C7-4976-AA3F-531E7DCD37D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DED767B-484F-4A61-98C4-8ED010A7EF25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DED767B-484F-4A61-98C4-8ED010A7EF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DED767B-484F-4A61-98C4-8ED010A7EF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DED767B-484F-4A61-98C4-8ED010A7EF25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
