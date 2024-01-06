@@ -7,8 +7,7 @@ public class LogConsumerService(ILogger<LogConsumerService> logger, RabbitMqConf
         using var connection = CreateConnection();
         using var channel = connection.CreateModel();
 
-        ConsumeQueue(channel, LearningHub.Domain.Utils.Constants.RabbitMq.FailureQueueName);
-        ConsumeQueue(channel, LearningHub.Domain.Utils.Constants.RabbitMq.SuccessQueueName);
+        ConsumeQueue(channel, LearningHub.Domain.Utils.Constants.RabbitMq.OperationQueueName);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -27,6 +26,7 @@ public class LogConsumerService(ILogger<LogConsumerService> logger, RabbitMqConf
         {
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
+           
             logger.LogInformation("Received message from {queueName}: {message}", queueName, message);
         };
 

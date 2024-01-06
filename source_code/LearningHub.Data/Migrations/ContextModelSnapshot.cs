@@ -22,7 +22,7 @@ namespace LearningHub.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("LearningHub.Domain.MessageQueueLabs.Entities.FailureLog", b =>
+            modelBuilder.Entity("LearningHub.Domain.MessageQueueLabs.Entities.OperationLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,12 +32,10 @@ namespace LearningHub.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ExceptionStackTrace")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("exception-stack-trace");
 
                     b.Property<string>("ExceptionText")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("exception-text");
 
@@ -60,43 +58,9 @@ namespace LearningHub.Data.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("occurrence-date");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("user-name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("failure-log");
-                });
-
-            modelBuilder.Entity("LearningHub.Domain.MessageQueueLabs.Entities.SuccessLog", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("log_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("InterfaceName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("interface-name");
-
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("ip-address");
-
-                    b.Property<string>("MessageText")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("message-text");
-
-                    b.Property<DateTime>("OccurrenceDate")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("occurrence-date");
+                    b.Property<int>("RecordType")
+                        .HasColumnType("integer")
+                        .HasColumnName("record-type");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -105,7 +69,7 @@ namespace LearningHub.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("success-log");
+                    b.ToTable("OperationLog");
                 });
 #pragma warning restore 612, 618
         }

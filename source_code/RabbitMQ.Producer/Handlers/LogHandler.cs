@@ -10,16 +10,13 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
             using var connection = ConnectionFactory().CreateConnection();
             using var channel = connection.CreateModel();
 
-            foreach (var log in GenerateLogs(request.QuantityOfLogs))
+            var logs = GenerateLogs(request.QuantityOfLogs);
+            foreach (var log in logs)
             {
                 var logJson = JsonSerializer.Serialize(log);
                 var body = Encoding.UTF8.GetBytes(logJson);
 
-                var queueName = log is SuccessLogDto
-                    ? LearningHub.Domain.Utils.Constants.RabbitMq.SuccessQueueName
-                    : LearningHub.Domain.Utils.Constants.RabbitMq.FailureQueueName;
-
-                channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
+                channel.BasicPublish(exchange: "", routingKey: LearningHub.Domain.Utils.Constants.RabbitMq.OperationQueueName, basicProperties: null, body: body);
             }
         }
         catch (Exception ex)
@@ -52,47 +49,38 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
         return result;
     }
 
-    private static List<BaseLogDto> GenerateLogs(int requestQuantityOfLogs)
+    private static List<OperationLogDto> GenerateLogs(int requestQuantityOfLogs)
     {
         var random = new Random();
-        var logs = new List<BaseLogDto>();
+        var result = new List<OperationLogDto>();
 
         for (var i = 0; i < requestQuantityOfLogs; i++)
         {
             var logId = Guid.NewGuid();
             var ipAddress = GenerateRandomIpAddress(random);
 
-            if (random.Next(2) == 0)
+            var recordType = random.Next(2) == 0 ? RecordType.Success : RecordType.Failure;
+
+            result.Add(new OperationLogDto
             {
-                logs.Add(new SuccessLogDto
-                {
-                    MessageText = $"Success message {logId}",
-                    InterfaceName = $"Interface {logId}",
-                    UserName = $"User {logId}",
-                    IpAddress = ipAddress,
-                    OccurrenceDate = DateTime.Now
-                });
-            }
-            else
-            {
-                logs.Add(new FailureLogDto
-                {
-                    MessageText = $"Failure message {logId}",
-                    InterfaceName = $"Interface {logId}",
-                    UserName = $"User {logId}",
-                    IpAddress = ipAddress,
-                    OccurrenceDate = DateTime.Now,
-                    ExceptionText = $"Exception message {logId}",
-                    ExceptionStackTrace = $"Stack trace {logId}"
-                });
-            }
+                MessageText = $"Failure message {logId}",
+                InterfaceName = $"Interface {logId}",
+                UserName = $"User {logId}",
+                IpAddress = ipAddress,
+                OccurrenceDate = DateTime.Now,
+                RecordType = recordType,
+                ExceptionText = recordType == RecordType.Success ? null : $"Exception message {logId}",
+                ExceptionStackTrace = recordType == RecordType.Success ? null : $"Stack trace {logId}",
+            });
         }
 
-        return logs;
+        return result;
     }
 
     private static string GenerateRandomIpAddress(Random random)
     {
-        return $"{random.Next(1, 255)}.{random.Next(0, 255)}.{random.Next(0, 255)}.{random.Next(0, 255)}";
+        var result = $"{random.Next(1, 255)}.{random.Next(0, 255)}.{random.Next(0, 255)}.{random.Next(0, 255)}";
+
+        return result;
     }
 }

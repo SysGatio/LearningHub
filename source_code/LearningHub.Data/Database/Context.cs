@@ -1,10 +1,10 @@
-﻿namespace LearningHub.Data.Database;
+﻿using OperationLog = LearningHub.Domain.MessageQueueLabs.Entities.OperationLog;
+
+namespace LearningHub.Data.Database;
 
 public class Context(IConfiguration configuration) : DbContext
 {
-    public virtual DbSet<SuccessLog> SuccessLog => Set<SuccessLog>();
-
-    public virtual DbSet<FailureLog> FailureLog => Set<FailureLog>();
+    public virtual DbSet<OperationLog> OperationLog => Set<OperationLog>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
