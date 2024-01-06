@@ -2,11 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.0.0
 MinimumVisualStudioVersion = 17.0.0.0
-
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningHub.Server", "Server\LearningHub.Server.csproj", "{B10AC966-053F-4EE7-8D36-C9CE98B79626}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningHub.Shared", "LearningHub.Shared\LearningHub.Shared.csproj", "{E451A6B5-7C97-42D5-8D78-E059670912A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningHub.Client", "Client\LearningHub.Client.csproj", "{C86184B5-A11E-460B-9BEE-7D6C38142BDF}"
-EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.Producer", "RabbitMQ.Producer\RabbitMQ.Producer.csproj", "{878B90F7-6F8D-43F3-9345-FBE7D11A7839}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,15 +12,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-
-		{C86184B5-A11E-460B-9BEE-7D6C38142BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C86184B5-A11E-460B-9BEE-7D6C38142BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C86184B5-A11E-460B-9BEE-7D6C38142BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C86184B5-A11E-460B-9BEE-7D6C38142BDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B10AC966-053F-4EE7-8D36-C9CE98B79626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B10AC966-053F-4EE7-8D36-C9CE98B79626}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B10AC966-053F-4EE7-8D36-C9CE98B79626}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B10AC966-053F-4EE7-8D36-C9CE98B79626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E451A6B5-7C97-42D5-8D78-E059670912A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E451A6B5-7C97-42D5-8D78-E059670912A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E451A6B5-7C97-42D5-8D78-E059670912A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E451A6B5-7C97-42D5-8D78-E059670912A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{878B90F7-6F8D-43F3-9345-FBE7D11A7839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{878B90F7-6F8D-43F3-9345-FBE7D11A7839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{878B90F7-6F8D-43F3-9345-FBE7D11A7839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{878B90F7-6F8D-43F3-9345-FBE7D11A7839}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
