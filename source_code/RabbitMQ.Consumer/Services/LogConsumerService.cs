@@ -2,6 +2,8 @@
 
 public class LogConsumerService(ILogger<LogConsumerService> logger, IServiceProvider serviceProvider, RabbitMqConfig rabbitMqConfig) : BackgroundService
 {
+    private static int _callCount;
+
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var connection = CreateConnection();
@@ -19,41 +21,61 @@ public class LogConsumerService(ILogger<LogConsumerService> logger, IServiceProv
 
     private void ConsumeQueue(IModel channel, string queueName)
     {
-        try
+        var arguments = new Dictionary<string, object>
         {
-            channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            { "x-dead-letter-exchange", "" },
+            { "x-dead-letter-routing-key", $"{LearningHub.Domain.MessageQueueLabs.Utils.Constants.OperationRetryQueueName}" }
+        };
 
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
+        channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: arguments);
+
+        var consumer = new EventingBasicConsumer(channel);
+        consumer.Received += (model, ea) =>
+        {
+            try
             {
-                using var scope = serviceProvider.CreateScope();
-                var context = scope.ServiceProvider.GetRequiredService<Context>();
-                var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
-
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
 
-                var operationLogDto = JsonConvert.DeserializeObject<OperationLogDto>(message);
+                PersistLogs(message);
 
-                if (operationLogDto == null)
-                {
-                    return;
-                }
+                channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Error processing message from {queueName}", queueName);
+                channel.BasicNack(deliveryTag: ea.DeliveryTag, multiple: false, requeue: false);
+            }
+        };
 
-                var operationLog = mapper.Map<OperationLog>(operationLogDto);
+        channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
+    }
 
-                context.OperationLog.Add(operationLog);
-                context.SaveChanges();
-            };
+    private void PersistLogs(string message)
+    {
+        _callCount++;
 
-            channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
-        }
-        catch (Exception e)
+        if (_callCount > 99)
         {
-            logger.LogError(e, "Error processing message from {queueName}", queueName);
-            throw;
+            throw new Exception("Simulated database failure");
         }
-      
+
+        using var scope = serviceProvider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<Context>();
+        var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
+
+        var operationLogDto = JsonConvert.DeserializeObject<OperationLogDto>(message);
+
+        if (operationLogDto == null)
+        {
+            return;
+        }
+
+        var operationLog = mapper.Map<OperationLog>(operationLogDto);
+
+        context.OperationLog.Add(operationLog);
+
+        context.SaveChanges();
     }
 
     private IConnection CreateConnection()

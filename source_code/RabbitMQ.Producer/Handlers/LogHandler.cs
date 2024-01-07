@@ -10,8 +10,7 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
             using var connection = ConnectionFactory().CreateConnection();
             using var channel = connection.CreateModel();
 
-            var logs = GenerateLogs(request.QuantityOfLogs);
-            foreach (var log in logs)
+            foreach (var log in GenerateLogs(request.QuantityOfLogs))
             {
                 var logJson = JsonSerializer.Serialize(log);
                 var body = Encoding.UTF8.GetBytes(logJson);
@@ -51,10 +50,9 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
         return result;
     }
 
-    private static List<OperationLogDto> GenerateLogs(int requestQuantityOfLogs)
+    private static IEnumerable<OperationLogDto> GenerateLogs(int requestQuantityOfLogs)
     {
         var random = new Random();
-        var result = new List<OperationLogDto>();
 
         for (var i = 0; i < requestQuantityOfLogs; i++)
         {
@@ -63,7 +61,7 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
 
             var recordType = random.Next(2) == 0 ? RecordType.Success : RecordType.Failure;
 
-            result.Add(new OperationLogDto
+            yield return new OperationLogDto
             {
                 MessageText = $"{DateTime.Now} Message {logId}",
                 InterfaceName = $"Interface {logId}",
@@ -73,10 +71,8 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
                 RecordType = recordType,
                 ExceptionText = recordType == RecordType.Success ? null : $"Exception message {logId}",
                 ExceptionStackTrace = recordType == RecordType.Success ? null : $"Stack trace {logId}",
-            });
+            };
         }
-
-        return result;
     }
 
     private static string GenerateRandomIpAddress(Random random)
