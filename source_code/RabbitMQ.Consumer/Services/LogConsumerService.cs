@@ -26,6 +26,7 @@ public class LogConsumerService(ILogger<LogConsumerService> logger, IServiceProv
             { "x-dead-letter-exchange", "" },
             { "x-dead-letter-routing-key", $"{LearningHub.Domain.MessageQueueLabs.Utils.Constants.OperationRetryQueueName}" }
         };
+        channel.BasicQos(0, 10, false);
 
         channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: arguments);
 
@@ -55,7 +56,7 @@ public class LogConsumerService(ILogger<LogConsumerService> logger, IServiceProv
     {
         _callCount++;
 
-        if (_callCount > 99)
+        if (_callCount > 999)
         {
             throw new Exception("Simulated database failure");
         }
