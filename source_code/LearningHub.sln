@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningHub.Data", "Learnin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningHub.Domain", "LearningHub.Domain\LearningHub.Domain.csproj", "{1DED767B-484F-4A61-98C4-8ED010A7EF25}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MessageQueueLabs", "MessageQueueLabs", "{C63C42E7-42C0-43A5-B950-6F51DADF3EF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{878B90F7-6F8D-43F3-9345-FBE7D11A7839} = {C63C42E7-42C0-43A5-B950-6F51DADF3EF8}
+		{56106750-765F-4289-8B2C-2E649760021D} = {C63C42E7-42C0-43A5-B950-6F51DADF3EF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {768EF868-F8A3-40AC-9E48-AAC09E25C068}

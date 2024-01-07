@@ -1,5 +1,6 @@
 ﻿namespace LearningHub.Domain.MessageQueueLabs.Entities;
 
+[Table("operation-log")]
 public class OperationLog
 {
     [Key]

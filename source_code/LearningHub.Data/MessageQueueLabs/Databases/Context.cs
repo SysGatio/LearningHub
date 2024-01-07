@@ -1,6 +1,4 @@
-﻿using OperationLog = LearningHub.Domain.MessageQueueLabs.Entities.OperationLog;
-
-namespace LearningHub.Data.Database;
+﻿namespace LearningHub.Data.MessageQueueLabs.Databases;
 
 public class Context(IConfiguration configuration) : DbContext
 {
@@ -28,7 +26,7 @@ public class Context(IConfiguration configuration) : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace LearningHub.Domain.Configs;
+﻿namespace LearningHub.Domain.MessageQueueLabs.Configs;
 
 public record RabbitMqConfig
 {

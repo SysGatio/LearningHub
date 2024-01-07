@@ -13,6 +13,8 @@ var rabbitMqConfig = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqCo
 builder.Services.AddSingleton(rabbitMqConfig);
 builder.Services.AddHostedService<LogConsumerService>();
 
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

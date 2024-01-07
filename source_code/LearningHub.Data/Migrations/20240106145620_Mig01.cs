@@ -13,7 +13,7 @@ namespace LearningHub.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "OperationLog",
+                name: "operation-log",
                 columns: table => new
                 {
                     log_id = table.Column<long>(type: "bigint", nullable: false)
@@ -29,7 +29,7 @@ namespace LearningHub.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OperationLog", x => x.log_id);
+                    table.PrimaryKey("PK_operation-log", x => x.log_id);
                 });
         }
 
@@ -37,7 +37,7 @@ namespace LearningHub.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OperationLog");
+                name: "operation-log");
         }
     }
 }

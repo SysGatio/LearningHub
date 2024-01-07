@@ -16,7 +16,9 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
                 var logJson = JsonSerializer.Serialize(log);
                 var body = Encoding.UTF8.GetBytes(logJson);
 
-                channel.BasicPublish(exchange: "", routingKey: LearningHub.Domain.Utils.Constants.RabbitMq.OperationQueueName, basicProperties: null, body: body);
+                channel.BasicPublish(exchange: "",
+                    routingKey: LearningHub.Domain.MessageQueueLabs.Utils.Constants.OperationQueueName,
+                    basicProperties: null, body: body);
             }
         }
         catch (Exception ex)
@@ -63,7 +65,7 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
 
             result.Add(new OperationLogDto
             {
-                MessageText = $"Failure message {logId}",
+                MessageText = $"{DateTime.Now} Message {logId}",
                 InterfaceName = $"Interface {logId}",
                 UserName = $"User {logId}",
                 IpAddress = ipAddress,

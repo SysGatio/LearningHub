@@ -1,13 +1,13 @@
 ﻿namespace RabbitMQ.Consumer.Services;
 
-public class LogConsumerService(ILogger<LogConsumerService> logger, RabbitMqConfig rabbitMqConfig) : BackgroundService
+public class LogConsumerService(ILogger<LogConsumerService> logger, IServiceProvider serviceProvider, RabbitMqConfig rabbitMqConfig) : BackgroundService
 {
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var connection = CreateConnection();
         using var channel = connection.CreateModel();
 
-        ConsumeQueue(channel, LearningHub.Domain.Utils.Constants.RabbitMq.OperationQueueName);
+        ConsumeQueue(channel, LearningHub.Domain.MessageQueueLabs.Utils.Constants.OperationQueueName);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -19,18 +19,41 @@ public class LogConsumerService(ILogger<LogConsumerService> logger, RabbitMqConf
 
     private void ConsumeQueue(IModel channel, string queueName)
     {
-        channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
-
-        var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (model, ea) =>
+        try
         {
-            var body = ea.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
-           
-            logger.LogInformation("Received message from {queueName}: {message}", queueName, message);
-        };
+            channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-        channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
+            {
+                using var scope = serviceProvider.CreateScope();
+                var context = scope.ServiceProvider.GetRequiredService<Context>();
+                var mapper = scope.ServiceProvider.GetRequiredService<IMapper>();
+
+                var body = ea.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+
+                var operationLogDto = JsonConvert.DeserializeObject<OperationLogDto>(message);
+
+                if (operationLogDto == null)
+                {
+                    return;
+                }
+
+                var operationLog = mapper.Map<OperationLog>(operationLogDto);
+
+                context.OperationLog.Add(operationLog);
+                context.SaveChanges();
+            };
+
+            channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Error processing message from {queueName}", queueName);
+            throw;
+        }
+      
     }
 
     private IConnection CreateConnection()

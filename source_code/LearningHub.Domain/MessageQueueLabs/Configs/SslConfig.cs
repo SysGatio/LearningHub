@@ -1,4 +1,4 @@
-﻿namespace LearningHub.Domain.Configs;
+﻿namespace LearningHub.Domain.MessageQueueLabs.Configs;
 
 [UsedImplicitly]
 public record SslConfig
