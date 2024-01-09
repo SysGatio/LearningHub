@@ -1,7 +1,7 @@
 ﻿namespace RabbitMQ.Producer.Handlers;
 
 [UsedImplicitly]
-internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabbitMqConfig) : IRequestHandler<QueueLogMessageRequest>
+internal sealed class LogProducerHandler(ILogger<LogProducerHandler> logger, RabbitMqConfig rabbitMqConfig) : IRequestHandler<QueueLogMessageRequest>
 {
     public Task Handle(QueueLogMessageRequest request, CancellationToken cancellationToken)
     {
@@ -10,7 +10,7 @@ internal sealed class LogHandler(ILogger<LogHandler> logger, RabbitMqConfig rabb
             using var connection = ConnectionFactory().CreateConnection();
             using var channel = connection.CreateModel();
 
-            foreach (var log in GenerateLogs(request.QuantityOfLogs))
+            foreach (var log in GenerateLogs(request.LogsQuantity))
             {
                 var logJson = JsonSerializer.Serialize(log);
                 var body = Encoding.UTF8.GetBytes(logJson);

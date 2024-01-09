@@ -4,11 +4,11 @@
 public class LogProducerController(ILogger<LogProducerController> logger, ISender mediator) : ControllerBase
 {
     [HttpPost("QueueLogMessage")]
-    public async Task<IActionResult> QueueLogMessage([FromQuery] int quantityOfLogs)
+    public async Task<IActionResult> QueueLogMessage([FromQuery] int logsQuantity)
     {
         try
         {
-            await mediator.Send(new QueueLogMessageRequest {QuantityOfLogs = quantityOfLogs });
+            await mediator.Send(new QueueLogMessageRequest {LogsQuantity = logsQuantity });
 
             return Ok("Log message queued successfully.");
         }

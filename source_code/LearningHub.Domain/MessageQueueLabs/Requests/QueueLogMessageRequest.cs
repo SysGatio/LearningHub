@@ -2,5 +2,5 @@
 
 public class QueueLogMessageRequest : IRequest
 {
-    public int QuantityOfLogs { get; init; }
+    public int LogsQuantity { get; init; }
 }
