@@ -1,4 +1,7 @@
-namespace SF.App01.UseCases.WeatherForecast.Controllers;
+using ResultPattern.Application;
+using ResultPattern.UseCases.WeatherForecast.Domain;
+
+namespace ResultPattern.UseCases.WeatherForecast.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -33,7 +36,7 @@ public class WeatherForecastController(ILogger<WeatherForecastController> logger
     {
         try
         {
-            throw new Exception("Simulated exception");
+            //throw new Exception("Simulated exception");
             var weatherForecasts = Enumerable.Range(1, 5).Select(index => new Domain.WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

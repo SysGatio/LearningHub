@@ -1,4 +1,4 @@
-﻿namespace SF.App01.Application;
+﻿namespace ResultPattern.Application;
 
 public class Result
 {

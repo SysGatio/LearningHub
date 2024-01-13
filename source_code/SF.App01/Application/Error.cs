@@ -1,4 +1,4 @@
-﻿namespace SF.App01.Application;
+﻿namespace ResultPattern.Application;
 
 public sealed record Error(string Code, string Description)
 {

@@ -1,4 +1,6 @@
-namespace SF.App01.UseCases.WeatherForecast.Domain;
+using ResultPattern.Application;
+
+namespace ResultPattern.UseCases.WeatherForecast.Domain;
 
 public class WeatherForecast
 {
