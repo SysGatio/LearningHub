@@ -1,6 +1,0 @@
-@SF.App01.Core_HostAddress = http://localhost:5234
-
-GET {{SF.App01.Core_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
